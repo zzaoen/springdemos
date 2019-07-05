@@ -20,7 +20,9 @@
         <module>demo-profiles</module>
         <module>demo-events</module>
         <module>demo-guava</module>
-        <module>dome-retry</module>
+        <module>demo-retry</module>
+        <module>demo-annotation</module>
+        <module>demo-data</module>
     </modules>
 
     <!--带有多个module，必须制定packaging为pom，默认为jar-->

@@ -1,4 +1,4 @@
-package stubhub;
+package com.stubhub;
 
 /*
  * @author: zzhao3@ebay.com

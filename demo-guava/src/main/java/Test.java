@@ -10,10 +10,15 @@ import lombok.Data;
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class Test {
     public static void main(String[] args) {
+
+        for(int i = 0; i < 30; i++) {
+            System.out.println(ThreadLocalRandom.current().nextInt(0, 10));
+        }
 
         Map<String, List<String>> map = new HashMap<>();
         List<String> list = new LinkedList<>();
