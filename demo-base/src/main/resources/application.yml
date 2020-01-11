@@ -1,0 +1,13 @@
+#spring.security.user.name: admin
+#spring.security.user.password: admin
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+      base-path: /
+  endpoint:
+    health:
+      show-details: when_authorized
