@@ -8,6 +8,3 @@ management:
       exposure:
         include: '*'
       base-path: /
-  endpoint:
-    health:
-      show-details: when_authorized

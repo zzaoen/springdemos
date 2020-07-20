@@ -3,7 +3,7 @@ import reactor.core.publisher.Flux;
 import java.util.concurrent.atomic.AtomicLong;
 
 /*
- * Author: zzhao3@stuhhub.com
+ * Author: Bruce Zhao
  * Date: 2020/1/8 17:05
  * Desc:
  */

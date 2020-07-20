@@ -1,0 +1,18 @@
+my:
+  name: default
+spring:
+  profiles:
+    active: dev
+---
+spring:
+  profiles: dev
+my:
+  name: dev
+---
+spring:
+  profiles: prod
+my:
+  name: prod
+---
+
+

@@ -3,7 +3,7 @@ import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.SignalType;
 
 /*
- * Author: zzhao3@stuhhub.com
+ * Author: Bruce Zhao
  * Date: 2020/1/8 15:00
  * Desc:
  */
