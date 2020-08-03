@@ -1,4 +1,4 @@
-package async;
+package async.lock;
 
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;

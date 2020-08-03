@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.WebAsyncTask;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /*
  * Author: Bruce Zhao
@@ -18,70 +17,96 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 public class AsyncTestController {
-
-  @PostMapping(value = "/instrument/test")
-  public ResponseEntity<String> job() {
-    // executor.submit(this::doTask);
+  ExecutorService service = Executors.newSingleThreadExecutor();
+  
+  @Autowired AsyncService asyncService;
+  
+  @PostMapping(value = "/async/test")
+  public ResponseEntity<String> test() throws InterruptedException {
+    log.info("in test");
+    TimeUnit.SECONDS.sleep(10);
+    return ResponseEntity.ok("done");
+  }
+  
+  @PostMapping(value = "/async/test/1")
+  public ResponseEntity<String> test1() throws InterruptedException, ExecutionException {
+    log.info("in test 1");
+    Future<Integer> submit = service.submit(this::doTaskReturn);
+    // log.info("task done: " + submit.get());
     return ResponseEntity.ok("ok");
   }
-  
-  @PostMapping(value = "/instrument/test/2")
-  public void test2(
-  ) {
-    log.info("start");
+
+  @PostMapping(value = "/async/test/2")
+  public ResponseEntity<String> test2() {
+    log.info("in test 2");
+    new Thread(() -> {
+      try {
+        TimeUnit.SECONDS.sleep(10);
+        log.info("thread done");
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }).start();
+    log.info("task done");
+    return ResponseEntity.ok("done");
   }
-  
+
   public void doTask() {
-    log.info("Looking up ");
     // User results = restTemplate.getForObject(url, User.class);
     // Artificial delay of 1s for demonstration purposes
     try {
-      TimeUnit.SECONDS.sleep(2);
-      log.info("in thread");
+      TimeUnit.SECONDS.sleep(10);
+      log.info("in do task, time consuming task done");
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
   }
   
-  @PostMapping(value = "/instrument/test/3")
-  public Runnable runnable() {
-    return () -> {
-      try {
-        Thread.sleep(2000);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      }
-      log.info("in thread callable");
-    };
+  public int doTaskReturn() {
+    // User results = restTemplate.getForObject(url, User.class);
+    // Artificial delay of 1s for demonstration purposes
+    try {
+      TimeUnit.SECONDS.sleep(10);
+      log.info("in do task, time consuming task done");
+      return 1;
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    return 1;
   }
-  
-  @PostMapping(value = "/instrument/test/4")
-  public Callable<String> callable() {
-    return () -> {
-      Thread.sleep(2000);
-      log.info("in thread callable");
-      return "Callable result";
-    };
-  }
-  
-  @PostMapping(value = "/instrument/test/5")
-  public Callable<String> def() {
-    return () -> {
-      Thread.sleep(2000);
-      log.info("in thread callable");
-      return "Callable result";
-    };
-  }
-  
-  
-  @PostMapping(value = "/instrument/test/6")
-  public WebAsyncTask<String> callableTimeout() {
+
+  @PostMapping(value = "/async/test/3")
+  public Callable<String> callable3() {
+    log.info("start");
     Callable<String> callable = () -> {
-      Thread.sleep(2000);
-      log.info("in thread 3");
-      return "Callable result";
+      log.info("in callable");
+      TimeUnit.SECONDS.sleep(10);
+      return "done";
     };
-    return new WebAsyncTask<String>(100000, callable);
+    log.info("end");
+    return callable;
+  }
+
+  @PostMapping(value = "/async/test/4")
+  public ResponseEntity<String> callable4() {
+    // return () -> {
+    //   Thread.sleep(2000);
+    //   log.info("in thread callable");
+    //   return "Callable result";
+    // };
+    log.info("in test 4");
+    String s = asyncService.doTaskReturn();
+    return ResponseEntity.ok(s);
   }
   
+  @PostMapping(value = "/async/test/5")
+  public WebAsyncTask<String> callableTimeout() {
+    Callable<String> callable =
+        () -> {
+          Thread.sleep(2000);
+          log.info("in thread 6");
+          return "Callable result";
+        };
+    return new WebAsyncTask<String>(1000, callable);
+  }
 }

@@ -1,0 +1,14 @@
+server:
+  tomcat:
+    accesslog:
+      enabled: true
+    threads:
+      max: 2
+
+logging:
+  level:
+    root: INFO
+    org.springframework:
+      security: DEBUG
+      http: trace
+      web.reactive.function.client.ExchangeFunctions: trace

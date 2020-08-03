@@ -1,7 +1,7 @@
 package com.demo.cache;
 
 import ch.qos.logback.core.util.TimeUtil;
-import io.micrometer.core.instrument.util.TimeUtils;
+import io.micrometer.core.async.util.TimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
